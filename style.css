@@ -53,7 +53,7 @@ body {
   margin-bottom: 30px;
 }
 
-.link-items {
+.container ul {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -64,6 +64,10 @@ body {
   position: relative;
 }
 
+.link-item:last-child {
+  margin-top: 100px;
+}
+
 .link-item a {
   display: flex;
   align-items: center;
@@ -72,9 +76,9 @@ body {
   border-radius: 10px;
   text-decoration: none;
   font-size: 16px;
-  color: var(--dark-text-clr);
   white-space: nowrap;
-  transition: background-color 0.3s;
+  text-transform: capitalize;
+  color: var(--dark-text-clr);
 }
 
 .link-item a span {
@@ -91,6 +95,7 @@ body {
 }
 
 .container.active .link-item a span {
+  transition-delay: calc(0.02s * var(--i));
   transform: translateX(0px);
 }
 
@@ -148,26 +153,39 @@ body {
   background-color: var(--white-bg);
 }
 
-.sub-menu {
-  max-height: 0;
-  overflow: hidden;
+.menu ul li .arrow {
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.menu ul li.active .arrow {
+  transform: rotate(180deg);
+}
+
+.menu .sub-menu {
+  display: none;
   margin-left: 20px;
   padding-left: 20px;
   padding-top: 5px;
   border-left: 1px solid #f6f6f6;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 }
 
-.sub-menu li a {
+.menu .sub-menu li {
+  display: none; /* Ocultar subopciones por defecto */
+}
+
+.menu .sub-menu li a {
   padding: 10px 8px;
   font-size: 12px;
 }
 
-.link-item .arrow {
-  font-size: 14px;
-  transition: transform 0.3s;
+.menu .sub-menu li a.selected {
+  background-color: var(--hover-clr);
+  color: var(--primary-clr);
 }
 
-.link-item.active .arrow {
-  transform: rotate(180deg);
+.menu .sub-menu li a:hover {
+  background-color: var(--hover-clr);
 }
