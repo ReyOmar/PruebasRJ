@@ -8,49 +8,62 @@
   --light-text-clr: #fff;
   --hover-clr: #f1e8fd;
 }
+
 body.dark-mode {
+  --primary-clr: #7522e6;
   --bg-clr: #1e1e1e;
   --white-bg: #23262b;
   --dark-text-clr: #fff;
   --light-text-clr: #fff;
   --hover-clr: #31313f;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 body {
   min-height: 100vh;
   display: flex;
-  align-items: flex-start; /* Cambiado a flex-start para alinear el contenedor a la parte superior */
+  align-items: center;
   justify-content: center;
   background: var(--bg-clr);
 }
+
 .container {
   width: 85px;
   min-height: 500px;
-  margin: 20px auto; /* Añadido margen superior */
+  margin: 0 auto;
   padding: 20px;
+  overflow: hidden;
   border-radius: 10px;
   background-color: var(--white-bg);
   transition: all 0.3s ease;
-  overflow: hidden; /* Evita el desbordamiento del submenú */
 }
+
 .container.active {
   width: 250px;
 }
-.logo {
+
+.container .logo {
   width: 100%;
   margin-bottom: 30px;
 }
+
 .link-items {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+.link-item {
+  position: relative;
+}
+
 .link-item a {
   display: flex;
   align-items: center;
@@ -60,32 +73,101 @@ body {
   text-decoration: none;
   font-size: 16px;
   color: var(--dark-text-clr);
-  position: relative; /* Para posicionar el ícono de flecha */
+  white-space: nowrap;
+  transition: background-color 0.3s;
 }
-.link-item a .arrow {
-  margin-left: auto; /* Empuja la flecha hacia la derecha */
-  transition: transform 0.3s; /* Transición para la rotación */
+
+.link-item a span {
+  transition: transform 0.5s;
+  transform: translateX(100px);
 }
-.link-item.active a .arrow {
-  transform: rotate(180deg); /* Rotar la flecha cuando el submenú está activo */
+
+.link-item:last-child span h4 {
+  line-height: 1;
 }
-.sub-menu {
-  max-height: 0; /* Oculta el submenú por defecto */
-  overflow: hidden; /* Evita que se vea el contenido del submenú */
-  transition: max-height 0.3s ease; /* Transición para el despliegue */
-  margin-left: 20px;
+
+.link-item:last-child span p {
+  font-size: 12px;
 }
-.sub-menu li {
-  list-style: none;
-  padding-left: 20px;
+
+.container.active .link-item a span {
+  transform: translateX(0px);
 }
-.link-item.active .sub-menu {
-  max-height: 300px; /* Ajusta según el contenido esperado */
-}
+
 .link-item a:hover {
   background-color: var(--hover-clr);
 }
+
 .link-item.active a {
   color: var(--light-text-clr);
   background-color: var(--primary-clr);
+}
+
+.link-item ion-icon {
+  min-width: 20px;
+  min-height: 20px;
+  margin-right: 20px;
+  position: relative;
+}
+
+.link-item img {
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.link-item ion-icon.noti-icon::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary-clr);
+  border: 1px solid var(--white-bg);
+}
+
+.link-item a .num-noti {
+  margin-left: 40px;
+  font-size: 12px;
+  color: var(--light-text-clr);
+  background-color: var(--primary-clr);
+  min-width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.link-item.active a .num-noti {
+  color: var(--primary-clr);
+  background-color: var(--white-bg);
+}
+
+.sub-menu {
+  max-height: 0;
+  overflow: hidden;
+  margin-left: 20px;
+  padding-left: 20px;
+  padding-top: 5px;
+  border-left: 1px solid #f6f6f6;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.sub-menu li a {
+  padding: 10px 8px;
+  font-size: 12px;
+}
+
+.link-item .arrow {
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.link-item.active .arrow {
+  transform: rotate(180deg);
 }
