@@ -1,88 +1,65 @@
-const container = document.querySelector(".container");
+// Código 1 Actualizado: Manejo de menú con submenús al pasar el mouse
+$(".menu > ul > li").mouseenter(function (e) {
+  // Elimina la clase "active" de todos los elementos hermanos del <li> sobre el que se pasó el ratón.
+  $(this).siblings().removeClass("active");
+
+  // Agrega la clase "active" al elemento <li> sobre el que se pasó el ratón.
+  $(this).addClass("active");
+
+  // Muestra el submenú <ul> dentro del <li> con una animación deslizante.
+  $(this).find("ul").stop(true, true).slideDown();
+
+  // Oculta los submenús de los hermanos del <li> con una animación deslizante.
+  $(this).siblings().find("ul").stop(true, true).slideUp();
+});
+
+// Evento para cerrar el submenú cuando el mouse se va del <li>
+$(".menu > ul > li").mouseleave(function (e) {
+  // Oculta el submenú <ul> dentro del <li> con una animación deslizante.
+  $(this).find("ul").stop(true, true).slideUp();
+
+  // Elimina la clase "active" del elemento <li> cuando el ratón se va.
+  $(this).removeClass("active");
+});
+
+// Código 2: Funcionalidades adicionales (hover en navcontainer, dark mode, etc.)
+const navcontainer = document.querySelector(".navcontainer");
 const linkItems = document.querySelectorAll(".link-item");
 const darkMode = document.querySelector(".dark-mode");
 const logo = document.querySelector(".logo svg");
 
-// Container Hover
-container.addEventListener("mouseenter", () => {
-  container.classList.add("active");
+// navcontainer Hover
+navcontainer.addEventListener("mouseenter", () => {
+  navcontainer.classList.add("active");
 });
 
-// Container Hover Leave
-container.addEventListener("mouseleave", () => {
-  container.classList.remove("active");
-  // Cerrar todos los submenús y quitar resaltados
-  linkItems.forEach((linkItem) => {
-    const subMenu = linkItem.querySelector(".sub-menu");
-    if (subMenu) {
-      closeSubmenu(linkItem, subMenu);
-    }
-  });
+// navcontainer Hover Leave
+navcontainer.addEventListener("mouseleave", () => {
+  navcontainer.classList.remove("active");
 });
 
-// Link-items Clicked
-linkItems.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    const subMenu = item.querySelector(".sub-menu");
-    if (!subMenu) return; // Si no hay submenú, salir de la función
-
-    // Alterna el submenú actual (abre o cierra)
-    if (item.classList.contains("active")) {
-      closeSubmenu(item, subMenu);
-    } else {
-      openSubmenu(item, subMenu);
-    }
-  });
-
-  // Para las sub-opciones
-  const subOptions = item.querySelectorAll(".sub-option");
-  subOptions.forEach((subOption) => {
-    subOption.addEventListener("click", (e) => {
-      e.stopPropagation(); // Evita que el evento se propague al elemento padre
-      // Quitar resaltados de otras opciones
-      subOptions.forEach((opt) => {
-        opt.classList.remove("selected");
+// Link-items Clicked (sin incluir dark-mode)
+linkItems.forEach((linkItem) => {
+  if (!linkItem.classList.contains("dark-mode")) {
+    linkItem.addEventListener("click", () => {
+      linkItems.forEach((item) => {
+        item.classList.remove("active");
       });
-      // Resaltar solo la opción seleccionada
-      subOption.classList.add("selected");
+      linkItem.classList.add("active");
     });
-  });
+  }
 });
 
 // Dark Mode Functionality
 darkMode.addEventListener("click", function () {
   if (document.body.classList.contains("dark-mode")) {
-    darkMode.querySelector("span").textContent = "Dark Mode";
+    darkMode.querySelector("span").textContent = "dark mode";
     darkMode.querySelector("ion-icon").setAttribute("name", "moon-outline");
-    logo.style.fill = "#363b46";
+    
   } else {
-    darkMode.querySelector("span").textContent = "Light Mode";
+    darkMode.querySelector("span").textContent = "light mode";
     darkMode.querySelector("ion-icon").setAttribute("name", "sunny-outline");
-    logo.style.fill = "#fff";
+    
   }
   document.body.classList.toggle("dark-mode");
 });
-
-// Función para abrir el submenú
-function openSubmenu(item, subMenu) {
-  item.classList.add("active");
-  subMenu.style.maxHeight = subMenu.scrollHeight + "px"; // Ajusta la altura al contenido
-  subMenu.style.paddingTop = "10px"; // Añade espaciado arriba
-  subMenu.style.paddingBottom = "100px"; // Añade espaciado abajo
-  const subOptions = subMenu.querySelectorAll("li");
-  subOptions.forEach(option => {
-    option.style.display = "block"; // Mostrar subopciones al abrir
-  });
-}
-
-// Función para cerrar el submenú
-function closeSubmenu(item, subMenu) {
-  subMenu.style.maxHeight = "0"; // Colapsa el submenú
-  subMenu.style.paddingTop = "0"; // Elimina el espaciado arriba
-  subMenu.style.paddingBottom = "0"; // Elimina el espaciado abajo
-  item.classList.remove("active");
-  const subOptions = subMenu.querySelectorAll("li");
-  subOptions.forEach(option => {
-    option.style.display = "none"; // Ocultar subopciones al cerrar
-  });
-}
